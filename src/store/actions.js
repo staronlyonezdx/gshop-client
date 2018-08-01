@@ -1,5 +1,14 @@
-import {RECEIVE_ADDRESS, RECEIVE_CATEGORYS, RECEIVE_SHOPS} from './mutation_types'
-import {reqAddress, reqCategorys, reqShops} from '../api'
+import {
+  RECEIVE_ADDRESS,
+  RECEIVE_CATEGORYS,
+  RECEIVE_SHOPS,
+  RECEIVE_USER
+} from './mutation_types'
+import {
+  reqAddress,
+  reqCategorys,
+  reqShops
+} from '../api'
 
 export default {
   async getAddress({commit, state}) {
@@ -25,5 +34,8 @@ export default {
       const shops = result.data;
       commit(RECEIVE_SHOPS, {shops});
     }
+  },
+  saveUser({commit}, user) {
+    commit(RECEIVE_USER, {user})
   }
 }
