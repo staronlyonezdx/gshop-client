@@ -2,12 +2,21 @@ import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
   RECEIVE_SHOPS,
-  RECEIVE_USER
+  RECEIVE_USER,
+  RESET_USER,
+  RECEIVE_GOODS,
+  RECEIVE_INFO,
+  RECEIVE_RATINGS
 } from './mutation_types'
 import {
   reqAddress,
   reqCategorys,
-  reqShops
+  reqShops,
+  reqUser,
+  reqLogout,
+  reqGoods,
+  reqInfo,
+  reqRatings
 } from '../api'
 
 export default {
@@ -37,5 +46,39 @@ export default {
   },
   saveUser({commit}, user) {
     commit(RECEIVE_USER, {user})
+  },
+  async getUser({commit}) {
+    const result = await reqUser();
+    if (result.code === 0) {
+      const user = result.data;
+      commit(RECEIVE_USER, {user})
+    }
+  },
+  async logout({commit}) {
+    const result = await reqLogout();
+    if (result.code === 0) {
+      commit(RESET_USER)
+    }
+  },
+  async getGoods({commit}) {
+    const result = await reqGoods();
+    if (result.code === 0) {
+      const goods = result.data;
+      commit(RECEIVE_GOODS, {goods})
+    }
+  },
+  async getRatings({commit}) {
+    const result = await reqRatings();
+    if (result.code === 0) {
+      const ratings = result.data;
+      commit(RECEIVE_RATINGS, {ratings})
+    }
+  },
+  async getInfo({commit}) {
+    const result = await reqInfo();
+    if (result.code === 0) {
+      const info = result.data;
+      commit(RECEIVE_INFO, {info})
+    }
   }
 }
