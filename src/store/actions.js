@@ -6,7 +6,9 @@ import {
   RESET_USER,
   RECEIVE_GOODS,
   RECEIVE_INFO,
-  RECEIVE_RATINGS
+  RECEIVE_RATINGS,
+  INCREMENT_FOOD_COUNT,
+  DECREMENT_FOOD_COUNT
 } from './mutation_types'
 import {
   reqAddress,
@@ -60,18 +62,20 @@ export default {
       commit(RESET_USER)
     }
   },
-  async getGoods({commit}) {
+  async getGoods({commit}, cb) {
     const result = await reqGoods();
     if (result.code === 0) {
       const goods = result.data;
       commit(RECEIVE_GOODS, {goods})
+      cb && cb();
     }
   },
-  async getRatings({commit}) {
+  async getRatings({commit}, cb) {
     const result = await reqRatings();
     if (result.code === 0) {
       const ratings = result.data;
       commit(RECEIVE_RATINGS, {ratings})
+      cb && cb()
     }
   },
   async getInfo({commit}) {
@@ -79,6 +83,13 @@ export default {
     if (result.code === 0) {
       const info = result.data;
       commit(RECEIVE_INFO, {info})
+    }
+  },
+  updateFoodCount({commit}, {food, isAdd}) {
+    if (isAdd) {
+      commit(INCREMENT_FOOD_COUNT, {food})
+    } else {
+      commit(DECREMENT_FOOD_COUNT, {food})
     }
   }
 }
